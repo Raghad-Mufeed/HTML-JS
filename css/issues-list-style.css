@@ -1,0 +1,25 @@
+:root {
+    --primary-color: #f8f4f4;
+    --white: #FFFFFF;
+    --font-12: 12px;
+    --font-10: 10px;
+}
+
+.secondary-color {
+    background-color: var(--primary-color);
+}
+
+.issue-id {
+    font-size: var(--font-12) !important;
+    font-weight: inherit;
+}
+
+.white-font {
+    color: var(--white) !important;
+}
+
+@media(max-width:768px) {
+    .issue-id {
+        font-size: var(--font-10) !important;
+    }
+}

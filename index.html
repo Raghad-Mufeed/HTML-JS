@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>HTML & JS</title>
+    <link rel="stylesheet" href="css/issue-form-style.css">
+    <link rel="stylesheet" href="css/issues-list-style.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0\css\font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="javascript/disable_add.js"></script>
+    <script type="text/javascript" src="javascript/Issues_List.js"></script>
+    <script type="text/javascript" src="javascript/change_background_color.js"></script>
+</head>
+
+<body id="background">
+    <div class="container justify-content-center font-weight-bold font-16">
+        <div class="row header my-3 mr-4">
+            <span class="col-11">
+                Issue Tracker Application
+            </span>
+            <span class="col-1">
+                <button type="button" class="btn btn-dark btn-sm button-title font-weight-bold font-16"
+                    onclick="change_background_color(document.getElementById('background'))">
+                    color</button>
+            </span>
+        </div>
+        <form class="rounded primary-color col-12 p-4">
+            <div class="row form-title px-4 pb-lg-4 pb-md-4 pb-sm-3 pb-3">Add New Issue:</div>
+            <div class="row px-4 mb-sm-1 mb-1 mb-lg-2 mb-md-2">Description</div>
+            <div class="row px-4 mb-lg-3 mb-md-3 mb-sm-2 mb-2">
+                <input type="text" class="border rounded pl-2 w-100 input-text font-16" id="description"
+                    placeholder="Describe the issue ..." oninput="disable_add(document.getElementById('add_button'),
+                    document.getElementById('description'),document.getElementById('assignedTo'))" />
+            </div>
+            <div class="row px-4 mb-sm-1 mb-1 mb-lg-2 mb-md-2">Severity</div>
+            <div class="row px-4 mb-lg-3 mb-md-3 mb-sm-2 mb-2">
+                <select class="input-text border custom-select custom-select-sm pl-2 w-100 font-16" id="severity">
+                    <option value="1">Low</option>
+                    <option value="2">Medium</option>
+                    <option value="3">High</option>
+                </select>
+            </div>
+            <div class="row px-4 mb-sm-1 mb-1 mb-lg-2 mb-md-2">Assigned To</div>
+            <div class="row px-4 mb-lg-4 mb-md-4 mb-sm-3 mb-3">
+                <input type="text" class="border rounded pl-2 w-100 input-text font-16" id="assignedTo"
+                    placeholder="Enter responsible ..." oninput="disable_add(document.getElementById('add_button'),
+                    document.getElementById('description'),document.getElementById('assignedTo'))" />
+            </div>
+            <div class="row px-4"><button id="add_button" type="button"
+                    class="btn btn-primary button-title font-weight-bold font-16" disabled onclick="
+                    Issues_List.addIssue(document.getElementById('description'),
+                    document.getElementById('severity'),document.getElementById('assignedTo'),
+                    document.getElementById('issues_area'));disable_add(document.getElementById('add_button'),
+                    document.getElementById('description'),document.getElementById('assignedTo'))">Add</button>
+            </div>
+        </form>
+        <div class="my-4 px-4" id="issues_area" style="overflow-y: auto; max-height: 850px;">
+        </div>
+    </div>
+</body>
+
+</html>
