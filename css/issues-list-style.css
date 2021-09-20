@@ -18,6 +18,11 @@
     color: var(--white) !important;
 }
 
+.issues-area {
+    overflow-y: auto;
+    max-height: 850px;
+}
+
 @media(max-width:768px) {
     .issue-id {
         font-size: var(--font-10) !important;

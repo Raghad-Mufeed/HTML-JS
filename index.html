@@ -13,6 +13,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="javascript/disable_add.js"></script>
     <script type="text/javascript" src="javascript/Issues_List.js"></script>
+    <script type="text/javascript" src="javascript/issue_box.js"></script>
+    <script type="text/javascript" src="javascript/order_issues_button.js"></script>
     <script type="text/javascript" src="javascript/change_background_color.js"></script>
 </head>
 
@@ -48,17 +50,29 @@
             <div class="row px-4 mb-lg-4 mb-md-4 mb-sm-3 mb-3">
                 <input type="text" class="border rounded pl-2 w-100 input-text font-16" id="assignedTo"
                     placeholder="Enter responsible ..." oninput="disable_add(document.getElementById('add_button'),
-                    document.getElementById('description'),document.getElementById('assignedTo'))" />
+                    document.getElementById('description'),document.getElementById('assignedTo'))" 
+                    onkeypress="return (event.charCode > 64 && event.charCode < 91) || 
+                    (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" />
             </div>
             <div class="row px-4"><button id="add_button" type="button"
                     class="btn btn-primary button-title font-weight-bold font-16" disabled onclick="
                     Issues_List.addIssue(document.getElementById('description'),
                     document.getElementById('severity'),document.getElementById('assignedTo'),
                     document.getElementById('issues_area'));disable_add(document.getElementById('add_button'),
-                    document.getElementById('description'),document.getElementById('assignedTo'))">Add</button>
+                    document.getElementById('description'),document.getElementById('assignedTo'))"
+                    onmouseover="check_duplication(document.getElementById('description').value,
+                    document.getElementById('severity').value,document.getElementById('assignedTo').value,
+                    document.getElementById('add_button'))">Add</button>
             </div>
         </form>
-        <div class="my-4 px-4" id="issues_area" style="overflow-y: auto; max-height: 850px;">
+        <div class="my-4 px-4">
+            <div class="rounded secondary-color mb-3 issues-area" id="issues_area">
+                <!--<script>
+                    for(let i=0;i<issues_list.length;i++){
+                        document.getElementById("issues_area").innerHTML+='<div>'+i+'</div>';
+                    }
+                </script>--> 
+            </div>
         </div>
     </div>
 </body>

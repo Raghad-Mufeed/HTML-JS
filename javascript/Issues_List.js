@@ -1,49 +1,41 @@
 issues_list = [];
+id_list = [];
 number = 1;
 BODY = "";
 possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+function check_duplication(description, severity, assignedTo, add_button) {
+    for (let i = 0; i < issues_list.length; i++) {
+        if (issues_list[i].description === description && issues_list[i].value === severity &&
+            issues_list[i].assignedTo === assignedTo) {
+            add_button.disabled = true;
+            window.confirm("The issue is already in the system");
+            break;
+        }
+    }
+}
 class Issues_List {
     static addIssue(description, severity, assignedTo, body) {
         BODY = body;
-        if ( Issues_List.check_empty_list()) {
+        if (Issues_List.check_empty_list()) {
             Issues_List.add_order_issues_button();
         }
         let date_time = new Date().toLocaleString();
         let issue = new Issue(description.value, severity.value, assignedTo.value, date_time);
         issues_list.push(issue);
         BODY.innerHTML += Issues_List.create_issue_box(issue);
-        Issues_List.reset_form(description,severity,assignedTo);
+        Issues_List.reset_form(description, severity, assignedTo);
     }
-    static reset_form(description,severity,assignedTo){
-        description.value="";
-        severity.value=1;
-        assignedTo.value="";
+    static reset_form(description, severity, assignedTo) {
+        description.value = "";
+        severity.value = 1;
+        assignedTo.value = "";
     }
-    static create_issue_box(issue){
-        let enabled=issue.status=="open"?"":"disabled";
-        return  '<div class="rounded secondary-color p-3 pt-4 mb-3">' +
-            '<div class="row issue-id px-3 mb-2">Issue ID: ' + issue.ID + '</div>' +
-            '<div class="row issue-id px-3 mb-2">' +
-            '<button type="button" class="btn btn-info btn-sm px-1 py-0 button-title font-weight-bold" disabled>' +
-            issue.status + '</button></div>' +
-            '<div class="row form-title px-3 mb-2">' + issue.description + '</div>' +
-            '<div class="mb-2 issue-id"><i class="fa fa-history mr-1"></i>' + issue.severity + '</div>' +
-            '<div class="mb-2 issue-id"><i class="fa fa-user mr-1"></i>' + issue.assignedTo + '</div>' +
-            '<div class="mb-2 issue-id"><i class="fa fa-calendar mr-1"></i>' + issue.date_time + '</div>' +
-            '<div class="row issue-id px-3 mb-2">' +
-            '<button type="button" class="btn btn-warning btn-sm mr-1 white-font button-title font-weight-bold"' +
-            'id="' + issue.number + '" onclick="Issues_List.callClose(' + issue.number + ');"'+
-            enabled+'>Close</button>' +
-            '<button type="button" class="btn btn-danger btn-sm button-title font-weight-bold"' +
-            'id="' + issue.number + '" onclick="Issues_List.callDelete(' + issue.number + ')">Delete</button></div>' +
-            '</div>';
+    static create_issue_box(issue) {
+        let enabled = issue.status == "open" ? "" : "disabled";;
+        return issue_box(issue,enabled);
     }
     static add_order_issues_button() {
-        BODY.innerHTML = '<div class="mb-2">' +
-            '<button type = "button" class="btn btn-secondary btn-sm button-title font-weight-bold"' +
-            'onclick = "Issues_List.orderIssues()" >' +
-            'order Issues</button >' +
-            '</div > ';
+        BODY.innerHTML = order_issues_button();
     }
     static check_empty_list() {
         if (issues_list.length == 0) {
@@ -67,7 +59,7 @@ class Issues_List {
         })
         Issues_List.build_issues_area();
     }
-    static build_issues_area(){
+    static build_issues_area() {
         BODY.innerHTML = "";
         if (!Issues_List.check_empty_list()) {
             Issues_List.add_order_issues_button()
@@ -116,6 +108,10 @@ class Issue {
                 id += "-";
             }
         }
+        while(id_list.indexOf(id)!=-1){
+            id=this.generateID();
+        }
+        id_list.push(id);
         return id;
     }
 };
