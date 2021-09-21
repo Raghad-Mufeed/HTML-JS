@@ -50,8 +50,7 @@
             <div class="row px-4 mb-lg-4 mb-md-4 mb-sm-3 mb-3">
                 <input type="text" class="border rounded pl-2 w-100 input-text font-16" id="assignedTo"
                     placeholder="Enter responsible ..." oninput="disable_add(document.getElementById('add_button'),
-                    document.getElementById('description'),document.getElementById('assignedTo'))" 
-                    onkeypress="return (event.charCode > 64 && event.charCode < 91) || 
+                    document.getElementById('description'),document.getElementById('assignedTo'))" onkeypress="return (event.charCode > 64 && event.charCode < 91) || 
                     (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" />
             </div>
             <div class="row px-4"><button id="add_button" type="button"
@@ -59,19 +58,42 @@
                     Issues_List.addIssue(document.getElementById('description'),
                     document.getElementById('severity'),document.getElementById('assignedTo'),
                     document.getElementById('issues_area'));disable_add(document.getElementById('add_button'),
-                    document.getElementById('description'),document.getElementById('assignedTo'))"
-                    onmouseover="check_duplication(document.getElementById('description').value,
+                    document.getElementById('description'),document.getElementById('assignedTo'))" onmouseover="check_duplication(document.getElementById('description').value,
                     document.getElementById('severity').value,document.getElementById('assignedTo').value,
                     document.getElementById('add_button'))">Add</button>
             </div>
         </form>
         <div class="my-4 px-4">
             <div class="rounded secondary-color mb-3 issues-area" id="issues_area">
-                <!--<script>
-                    for(let i=0;i<issues_list.length;i++){
-                        document.getElementById("issues_area").innerHTML+='<div>'+i+'</div>';
+                <script>
+                    let issues = JSON.parse(window.localStorage.getItem('issues_list'));
+                    if (issues.length) {
+                        document.getElementById("issues_area").innerHTML = '<div class="pt-4 p-3">' +
+                            '<button type = "button" class="btn btn-secondary btn-sm button-title font-weight-bold"' +
+                            'onclick = "Issues_List.orderIssues()" >' +
+                            'order Issues</button >' +
+                            '</div > ';
                     }
-                </script>--> 
+                    for (let i = 0; i < issues.length; i++) {
+                        let enabled = issues[i].status == "open" ? "" : "disabled";
+                        document.getElementById("issues_area").innerHTML += '<div class="mb-4 px-3">' +
+                            '<div class="row issue-id px-3 mb-2">Issue ID: ' + issues[i].ID + '</div>' +
+                            '<div class="row issue-id px-3 mb-2">' +
+                            '<button type="button" class="btn btn-info btn-sm px-1 py-0 button-title font-weight-bold" disabled>' +
+                            issues[i].status + '</button></div>' +
+                            '<div class="row form-title px-3 mb-2">' + issues[i].description + '</div>' +
+                            '<div class="mb-2 issue-id"><i class="fa fa-history mr-1"></i>' + issues[i].severity + '</div>' +
+                            '<div class="mb-2 issue-id"><i class="fa fa-user mr-1"></i>' + issues[i].assignedTo + '</div>' +
+                            '<div class="mb-2 issue-id"><i class="fa fa-calendar mr-1"></i>' + issues[i].date_time + '</div>' +
+                            '<div class="row issue-id px-3 mb-2">' +
+                            '<button type="button" class="btn btn-warning btn-sm mr-1 white-font button-title font-weight-bold"' +
+                            'id="' + issues[i].number + '" onclick="Issues_List.callClose(' + issues[i].number + ');"' +
+                            enabled + '>Close</button>' +
+                            '<button type="button" class="btn btn-danger btn-sm button-title font-weight-bold"' +
+                            'id="' + issues[i].number + '" onclick="Issues_List.callDelete(' + issues[i].number + ')">Delete</button></div>' +
+                            '</div>';;
+                    }
+                </script>
             </div>
         </div>
     </div>
