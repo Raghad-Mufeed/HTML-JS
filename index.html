@@ -16,6 +16,9 @@
     <script type="text/javascript" src="javascript/issue_box.js"></script>
     <script type="text/javascript" src="javascript/order_issues_button.js"></script>
     <script type="text/javascript" src="javascript/change_background_color.js"></script>
+    <script type="text/javascript" src="javascript/filter_severity.js"></script>
+    <script type="text/javascript" src="javascript/filter_status.js"></script>
+    <script type="text/javascript" src="javascript/reset_filter.js"></script>
 </head>
 
 <body id="background">
@@ -67,12 +70,38 @@
             <div class="rounded secondary-color mb-3 issues-area" id="issues_area">
                 <script>
                     let issues = JSON.parse(window.localStorage.getItem('issues_list'));
+                    let severity = window.localStorage.getItem('severity');
+                    let status = window.localStorage.getItem('status');
                     if (issues.length) {
                         document.getElementById("issues_area").innerHTML = '<div class="pt-4 p-3">' +
-                            '<button type = "button" class="btn btn-secondary btn-sm button-title font-weight-bold"' +
+                            '<button type = "button" class="btn btn-secondary btn-sm button-title font-weight-bold mr-5"' +
                             'onclick = "Issues_List.orderIssues()" >' +
-                            'order Issues</button >' +
+                            'order Issues</button>' +
+                            '<span class="filter-section text-right">Filter By: Severity ' +
+                            '<select class="button-title font-weight-bold mr-1 mr-sm-1 mr-md-2 mr-lg-2" id="filter_severity"' +
+                            'oninput="filter_severity(this.value)"><option value="-1" '+check_severity(-1)+'> </option>' +
+                            '<option value="1" '+check_severity(1)+'>Low</option>'+
+                            '<option value="2" '+check_severity(2)+'>Medium</option>'+
+                            '<option value="3" '+check_severity(3)+'>High</option></select> Status ' +
+                            '<select class="button-title font-weight-bold mr-1 mr-sm-1 mr-md-2 mr-lg-2"' +
+                            'oninput = "filter_status(this.value)"><option value="none"'+check_status("none")+'> </option>' +
+                            '<option value="open" '+check_status("open")+'>open</option>'+
+                            '<option value="closed" '+check_status("closed")+'>closed</option>' +
+                            '</select>' +
+                            '<button type = "button" class="btn btn-warning btn-sm button-title font-weight-bold white-font mr-1 mr-sm-1 mr-md-2 mr-lg-2"' +
+                            'onclick = "reset_filter()" >' +
+                            'Reset</button ></span>' +
                             '</div > ';
+                        if (severity !=null && severity != -1) {
+                            issues = issues.filter(function (item) {
+                                return item.value === severity;
+                            })
+                        }
+                        if (status!=null && status != "none") {
+                            issues = issues.filter(function (item) {
+                                return item.status === status;
+                            })
+                        }
                     }
                     for (let i = 0; i < issues.length; i++) {
                         let enabled = issues[i].status == "open" ? "" : "disabled";

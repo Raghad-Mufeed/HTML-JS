@@ -9,6 +9,7 @@
     --font-12: 12px;
     --size-35: 35px;
     --size-25: 25px;
+    --font-10: 10px;
 }
 
 .primary-color {
@@ -61,7 +62,7 @@
     }
 
     .button-title {
-        font-size: var(--font-12) !important;
+        font-size: var(--font-10) !important;
     }
 }
 
