@@ -1,0 +1,96 @@
+:root {
+    --primary-color: #EEEEEE;
+    --secondary-color: #f8f4f4;
+    --blue: #007bff;
+    --white: #FFFFFF;
+    --dark-blue: rgba(0, 123, 255, 0.25);
+    --pixel-1: 1px;
+    --font-size-lg: 30px;
+    --font-size-md: 20px;
+    --font-size-16: 16px;
+    --font-size-14: 14px;
+    --font-size-12: 12px;
+    --font-size-sm: 10px;
+}
+
+.primary-color {
+    background-color: var(--primary-color);
+}
+
+.secondary-color {
+    background-color: var(--secondary-color);
+}
+
+.filter-section {
+    font-size: var(--font-size-14);
+}
+
+.issue-id {
+    font-size: var(--font-size-12) !important;
+    font-weight: inherit;
+}
+
+.white-font {
+    color: var(--white) !important;
+}
+
+.issues-area {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 850px;
+}
+
+.font-size-16 {
+    font-size: var(--font-size-16) !important;
+}
+
+.header {
+    font-size: var(--font-size-lg);
+}
+
+.form-title {
+    font-size: var(--font-size-md);
+}
+
+.input-text {
+    font-family: sans-serif !important;
+    height: 35px !important;
+}
+
+.input-text:focus {
+    border-color: var(--blue) !important;
+    border-width: var(--pixel-1) !important;
+    box-shadow: 0 0 0 0.2rem var(--dark-blue) !important;
+    outline: none !important;
+}
+
+.button-title {
+    font-family: monospace;
+}
+
+::placeholder {
+    opacity: 0.6;
+}
+
+@media(max-width:768px) {
+    .header {
+        font-size: var(--font-size-md);
+    }
+    .form-title {
+        font-size: var(--font-size-16);
+    }
+    .font,
+    .input-text {
+        font-size: var(--font-size-12) !important;
+        height: 25px !important;
+    }
+    .button-title {
+        font-size: var(--font-size-sm) !important;
+    }
+    .issue-id {
+        font-size: var(--font-size-sm) !important;
+    }
+    .filter-section {
+        font-size: var(--font-size-sm);
+    }
+}

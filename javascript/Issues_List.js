@@ -3,11 +3,12 @@ id_list = [];
 //number = 1;
 BODY = "";
 possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
 function check_duplication(description, severity, assignedTo, add_button) {
-    let issues_list=JSON.parse(window.localStorage.getItem('issues_list'));
+    let issues_list = JSON.parse(window.localStorage.getItem('issues_list'));
     for (let i = 0; i < issues_list.length; i++) {
-        if (issues_list[i].description === description && issues_list[i].value === severity &&
-            issues_list[i].assignedTo === assignedTo) {
+        if (issues_list[i].description === description.value && issues_list[i].value === severity &&
+            issues_list[i].assignedTo === assignedTo.value) {
             add_button.disabled = true;
             window.confirm("The issue is already in the system");
             break;
@@ -22,12 +23,12 @@ class Issues_List {
         }*/
         let date_time = new Date().toLocaleString();
         let issue = new Issue(description.value, severity.value, assignedTo.value, date_time);
-        let issues_list=[];
-        issues_list= JSON.parse(window.localStorage.getItem('issues_list')) || [];
+        let issues_list = [];
+        issues_list = JSON.parse(window.localStorage.getItem('issues_list')) || [];
         issues_list.push(issue);
-       // BODY.innerHTML += Issues_List.create_issue_box(issue);
+        // BODY.innerHTML += Issues_List.create_issue_box(issue);
         Issues_List.reset_form(description, severity, assignedTo);
-        window.localStorage.setItem('issues_list',JSON.stringify(issues_list));
+        window.localStorage.setItem('issues_list', JSON.stringify(issues_list));
         window.location.reload();
     }
     static reset_form(description, severity, assignedTo) {
@@ -37,7 +38,7 @@ class Issues_List {
     }
     static create_issue_box(issue) {
         let enabled = issue.status == "open" ? "" : "disabled";
-        return issue_box(issue,enabled);
+        return issue_box(issue, enabled);
     }
     static add_order_issues_button() {
         BODY.innerHTML = order_issues_button();
@@ -45,32 +46,31 @@ class Issues_List {
     static check_empty_list() {
         if (issues_list.length == 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
     static orderIssues() {
-        let issues_list=[];
-        issues_list=JSON.parse(window.localStorage.getItem('issues_list'));
-        issues_list.sort(function (a, b) {
+        let issues_list = [];
+        issues_list = JSON.parse(window.localStorage.getItem('issues_list'));
+        issues_list.sort(function(a, b) {
             return a.value - b.value;
         });
         //Issues_List.build_issues_area();
-        window.localStorage.setItem('issues_list',JSON.stringify(issues_list));
-        window.location.reload(); 
+        window.localStorage.setItem('issues_list', JSON.stringify(issues_list));
+        window.location.reload();
     }
     static callClose(id) {
-        let issues_list=[];
-        issues_list=JSON.parse(window.localStorage.getItem('issues_list'));
-        issues_list.filter(function (item) {
-            if (item.number === id) {
-                item.status = "closed";
-            }
-        })
-        //Issues_List.build_issues_area();
-        window.localStorage.setItem('issues_list',JSON.stringify(issues_list));
-        window.location.reload(); 
+        let issues_list = [];
+        issues_list = JSON.parse(window.localStorage.getItem('issues_list'));
+        issues_list.filter(function(item) {
+                if (item.number === id) {
+                    item.status = "closed";
+                }
+            })
+            //Issues_List.build_issues_area();
+        window.localStorage.setItem('issues_list', JSON.stringify(issues_list));
+        window.location.reload();
     }
     static build_issues_area() {
         BODY.innerHTML = "";
@@ -87,14 +87,14 @@ class Issues_List {
         }
     }
     static deleteIssue(id) {
-        let issues_list=[];
-        issues_list=JSON.parse(window.localStorage.getItem('issues_list'));
-        issues_list = issues_list.filter(function (item) {
-            return item.number !== id
-        })
-        //Issues_List.build_issues_area();
-        window.localStorage.setItem('issues_list',JSON.stringify(issues_list));
-        window.location.reload(); 
+        let issues_list = [];
+        issues_list = JSON.parse(window.localStorage.getItem('issues_list'));
+        issues_list = issues_list.filter(function(item) {
+                return item.number !== id
+            })
+            //Issues_List.build_issues_area();
+        window.localStorage.setItem('issues_list', JSON.stringify(issues_list));
+        window.location.reload();
     }
 }
 
@@ -112,8 +112,8 @@ class Issue {
         this.date_time = date_time;
         this.status = "open";
         this.ID = this.generateID();
-        this.number =parseInt(window.localStorage.getItem('number'));
-        window.localStorage.setItem('number',this.number+1);
+        this.number = parseInt(window.localStorage.getItem('number'));
+        window.localStorage.setItem('number', this.number + 1);
     }
     generateID() {
         let id = "";
@@ -126,8 +126,8 @@ class Issue {
                 id += "-";
             }
         }
-        while(id_list.indexOf(id)!=-1){
-            id=this.generateID();
+        while (id_list.indexOf(id) != -1) {
+            id = this.generateID();
         }
         id_list.push(id);
         return id;
