@@ -81,12 +81,12 @@ function setAddIssueDisabled() {
     }
 }
 
-function severityFilter(issues) {
+function filterBySeverity(issues) {
     const severity = window.localStorage.getItem('severity');
     return severity ? issues.filter(issue => issue.severity === severity) : issues;
 }
 
-function statusFilter(issues) {
+function filterByStatus(issues) {
     const status = window.localStorage.getItem('status');
     return status ? issues.filter(issue => issue.status === status) : issues;
 }
@@ -94,7 +94,7 @@ function statusFilter(issues) {
 function addIssue() {
     const issue = new Issue(document.getElementById('description').value,
         document.getElementById('severity').value, document.getElementById('assignedTo').value);
-    let issues = JSON.parse(window.localStorage.getItem('issuesList')) || [];
+    const issues = JSON.parse(window.localStorage.getItem('issuesList')) || [];
     issues.push(issue);
     window.localStorage.setItem('issuesList', JSON.stringify(issues));
     window.location.reload();
@@ -112,7 +112,7 @@ function orderIssues() {
 }
 
 function closeIssue(id) {
-    let issues = JSON.parse(window.localStorage.getItem('issuesList'));
+    const issues = JSON.parse(window.localStorage.getItem('issuesList'));
     let issue = issues.find(issue => issue.id === id);
     issue.status = 'closed';
     window.localStorage.setItem('issuesList', JSON.stringify(issues));

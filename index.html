@@ -78,8 +78,8 @@
                             'onclick = "resetFilters()" >' +
                             'Reset</button ></span>' +
                             '</div > ';
-                        issues = severityFilter(issues);
-                        issues = statusFilter(issues);
+                        issues = filterBySeverity(issues);
+                        issues = filterByStatus(issues);
                     }
                     issues.forEach(issue => {
                         let enabled = issue.status === 'open' ? '' : 'disabled';
