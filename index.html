@@ -57,7 +57,7 @@
         <div class="my-4 px-4 ">
             <div class="mb-3 rounded issues-area secondary-color" id="issuesArea">
                 <script>
-                    let issues = JSON.parse(window.localStorage.getItem('issues_list')) || [];
+                    let issues = JSON.parse(window.localStorage.getItem('issuesList')) || [];
                     if (issues.length) {
                         document.getElementById('issuesArea').innerHTML = '<div class="pt-4 p-3">' +
                             '<button type = "button" class="btn btn-secondary btn-sm mr-5 button-title font-weight-bold"' +
@@ -65,12 +65,12 @@
                             'order Issues</button>' +
                             '<span class="filter-section text-right ">Filter By: Severity ' +
                             '<select class="mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold" id="severityFilter"' +
-                            'oninput="setServerityinLocalSrorage(this.value)"><option value="null" ' + checkSelectedSeverity("null") + '> </option>' +
+                            'oninput="setServerityinLocalSrorage(this.value)"><option value="null" ' + checkSelectedSeverity(null) + '> </option>' +
                             '<option value="Low" ' + checkSelectedSeverity("Low") + '>Low</option>' +
                             '<option value="Medium" ' + checkSelectedSeverity("Medium") + '>Medium</option>' +
                             '<option value="High" ' + checkSelectedSeverity("High") + '>High</option></select> Status ' +
                             '<select class="mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold"' +
-                            'oninput = "setStatusinLocalSrorage(this.value)"><option value="null"' + checkSelectedStatus("null") + '> </option>' +
+                            'oninput = "setStatusinLocalSrorage(this.value)"><option value="null"' + checkSelectedStatus(null) + '> </option>' +
                             '<option value="open" ' + checkSelectedStatus("open") + '>open</option>' +
                             '<option value="closed" ' + checkSelectedStatus("closed") + '>closed</option>' +
                             '</select>' +
