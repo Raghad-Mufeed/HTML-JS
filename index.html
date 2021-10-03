@@ -10,14 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="javascript/disable_add.js"></script>
-    <script type="text/javascript" src="javascript/Issues_List.js"></script>
-    <script type="text/javascript" src="javascript/issue_box.js"></script>
-    <script type="text/javascript" src="javascript/order_issues_button.js"></script>
-    <script type="text/javascript" src="javascript/change_background_color.js"></script>
-    <script type="text/javascript" src="javascript/filter_severity.js"></script>
-    <script type="text/javascript" src="javascript/filter_status.js"></script>
-    <script type="text/javascript" src="javascript/reset_filter.js"></script>
+    <script type="text/javascript" src="javascript/issue.js"></script>
 </head>
 
 <body id="background">
@@ -28,99 +21,85 @@
 			</span>
             <span class="col-1">
 				<button type="button" class="btn btn-dark btn-sm button-title font-weight-bold font-size-16"
-					onclick="change_background_color(document.getElementById('background'))">
-					color</button>
+					onclick="changeBackgroundColor()">
+                    color
+                </button>
 			</span>
         </div>
         <form class="col-12 p-4 rounded primary-color">
             <div class="row px-4 pb-lg-4 pb-md-4 pb-sm-3 pb-3 form-title">Add New Issue:</div>
-            <div class="row px-4 mb-lg-2 mb-md-2 mb-sm-1 mb-1">Description</div>
-            <div class="row px-4 mb-lg-3 mb-md-3 mb-sm-2 mb-2">
-                <input type="text" class="w-100 pl-2 input-text border rounded font-size-16" id="description" placeholder="Describe the issue ..." oninput="disable_add(document.getElementById('add_button'),
-                document.getElementById('description'),document.getElementById('assignedTo'))" onblur="check_duplication(
-					document.getElementById('description'),document.getElementById('severity').value,document.getElementById('assignedTo'),
-					document.getElementById('add_button'))">
+            <div class="px-4 mb-lg-2 mb-md-2 mb-sm-1 mb-1">
+                <label class="row" for="description">Description</label>
+                <div class="row">
+                    <input type="text" class="w-100 pl-2 input-text border rounded font-size-16" id="description" placeholder="Describe the issue ..." onblur="setAddIssueDisabled()">
+                </div>
             </div>
-            <div class="row px-4 mb-lg-2 mb-md-2 mb-sm-1 mb-1">Severity</div>
-            <div class="row px-4 mb-lg-3 mb-md-3 mb-sm-2 mb-2">
-                <select class="w-100 pl-2 input-text border custom-select custom-select-sm font-size-16" id="severity" oninput="disable_add(document.getElementById('add_button'),
-                document.getElementById('description'),document.getElementById('assignedTo'));check_duplication(
-					document.getElementById('description'),document.getElementById('severity').value,document.getElementById('assignedTo'),
-					document.getElementById('add_button'))">
-					<option value=" 1 ">Low</option>
-					<option value="2 ">Medium</option>
-					<option value="3 ">High</option>
+            <div class="px-4 mb-lg-2 mb-md-2 mb-sm-1 mb-1">
+                <label class="row" for="severity">Severity</label>
+                <div class="row">
+                    <select class="w-100 pl-2 input-text border custom-select custom-select-sm font-size-16" id="severity" oninput="setAddIssueDisabled()">
+					<option value="Low">Low</option>
+					<option value="Medium">Medium</option>
+					<option value="High">High</option>
 				</select>
+                </div>
             </div>
-            <div class="row px-4 mb-lg-2 mb-md-2 mb-sm-1 mb-1">Assigned To</div>
-            <div class="row px-4 mb-lg-4 mb-md-4 mb-sm-3 mb-3">
-                <input type="text " class="w-100 pl-2 input-text border rounded font-size-16" id="assignedTo" placeholder="Enter responsible ... " oninput="disable_add(document.getElementById( 'add_button'), 
-                document.getElementById( 'description'),document.getElementById('assignedTo')) " onkeypress="return (event.charCode> 64 && event.charCode
-                < 91) || (event.charCode> 96 && event.charCode
-                    < 123) || (event.charCode==32) " onblur="check_duplication(
-					document.getElementById('description'),document.getElementById('severity').value,document.getElementById('assignedTo'),
-					document.getElementById('add_button'))" />
+            <div class="px-4 mb-lg-2 mb-md-2 mb-sm-1 mb-1">
+                <label class="row" for="assignedTo">Assigned To</label>
+                <div class=" row">
+                    <input type="text " class="w-100 pl-2 input-text border rounded font-size-16" id="assignedTo" placeholder="Enter responsible ... " onkeypress="return (event.charCode> 64 && event.charCode < 91) || (event.charCode> 96 && event.charCode
+                    < 123) || (event.charCode==32) " onblur="setAddIssueDisabled()" />
+                </div>
             </div>
-            <div class="row px-4"><button id="add_button" type="button" class="btn btn-primary button-title font-weight-bold font-size-16" disabled onclick=" Issues_List.addIssue(document.getElementById( 'description'), document.getElementById(
-						'severity'),document.getElementById( 'assignedTo'), document.getElementById( 'issues_area'));disable_add(document.getElementById( 'add_button'), document.getElementById( 'description'),document.getElementById( 'assignedTo'))">Add</button>
+            <div class="row px-4"><button id="addButton" type="button" class="btn btn-primary button-title font-weight-bold font-size-16" disabled onclick="addIssue()">Add</button>
             </div>
         </form>
-        <div class="my-4 px-4">
-            <div class="mb-3 rounded issues-area secondary-color" id="issues_area">
+        <div class="my-4 px-4 ">
+            <div class="mb-3 rounded issues-area secondary-color" id="issuesArea">
                 <script>
-                    let issues = JSON.parse(window.localStorage.getItem('issues_list'));
-                    let severity = JSON.parse(window.localStorage.getItem('severity'));
-                    let status = window.localStorage.getItem('status');
+                    let issues = JSON.parse(window.localStorage.getItem('issues_list')) || [];
                     if (issues.length) {
-                        document.getElementById("issues_area").innerHTML = '<div class="pt-4 p-3">' +
-                            '<button type = "button " class="btn btn-secondary btn-sm mr-5 button-title font-weight-bold"' +
-                            'onclick = "Issues_List.orderIssues()" >' +
+                        document.getElementById('issuesArea').innerHTML = '<div class="pt-4 p-3">' +
+                            '<button type = "button" class="btn btn-secondary btn-sm mr-5 button-title font-weight-bold"' +
+                            'onclick = "orderIssues()" >' +
                             'order Issues</button>' +
-                            '<span class="filter-section text-right">Filter By: Severity ' +
-                            '<select class="mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold" id="filter_severity"' +
-                            'oninput="filter_severity(this.value)"><option value="-1" ' + check_severity(-1) + '> </option>' +
-                            '<option value="1" ' + check_severity(1) + '>Low</option>' +
-                            '<option value="2" ' + check_severity(2) + '>Medium</option>' +
-                            '<option value="3" ' + check_severity(3) + '>High</option></select> Status ' +
+                            '<span class="filter-section text-right ">Filter By: Severity ' +
+                            '<select class="mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold" id="severityFilter"' +
+                            'oninput="setServerityinLocalSrorage(this.value)"><option value="null" ' + checkSelectedSeverity("null") + '> </option>' +
+                            '<option value="Low" ' + checkSelectedSeverity("Low") + '>Low</option>' +
+                            '<option value="Medium" ' + checkSelectedSeverity("Medium") + '>Medium</option>' +
+                            '<option value="High" ' + checkSelectedSeverity("High") + '>High</option></select> Status ' +
                             '<select class="mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold"' +
-                            'oninput = "filter_status(this.value)"><option value="none"' + check_status("none") + '> </option>' +
-                            '<option value="open" ' + check_status("open") + '>open</option>' +
-                            '<option value="closed" ' + check_status("closed") + '>closed</option>' +
+                            'oninput = "setStatusinLocalSrorage(this.value)"><option value="null"' + checkSelectedStatus("null") + '> </option>' +
+                            '<option value="open" ' + checkSelectedStatus("open") + '>open</option>' +
+                            '<option value="closed" ' + checkSelectedStatus("closed") + '>closed</option>' +
                             '</select>' +
-                            '<button type = "button " class="btn btn-warning btn-sm mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold white-font"' +
-                            'onclick = "reset_filter()" >' +
+                            '<button type = "button" class="btn btn-warning btn-sm mr-lg-2 mr-md-2 mr-sm-1 mr-1 button-title font-weight-bold white-font"' +
+                            'onclick = "resetFilters()" >' +
                             'Reset</button ></span>' +
                             '</div > ';
-                        if (severity != null && severity != -1) {
-                            issues = issues.filter(function(item) {
-                                return parseInt(item.value) === severity;
-                            })
-                        }
-                        if (status != null && status != "none") {
-                            issues = issues.filter(function(item) {
-                                return item.status === status;
-                            })
-                        }
+                        issues = severityFilter(issues);
+                        issues = statusFilter(issues);
                     }
-                    for (let i = 0; i < issues.length; i++) {
-                        let enabled = issues[i].status == "open" ? " " : "disabled";
-                        document.getElementById("issues_area").innerHTML += '<div class="mb-4 px-3">' +
-                            '<div class="row px-3 mb-2 issue-id">Issue ID: ' + issues[i].ID + '</div>' +
-                            '<div class="row px-3 mb-2 issue-id">' +
-                            '<button type="button" class="btn btn-info btn-sm px-1 py-0 button-title font-weight-bold" disabled>' +
-                            issues[i].status + '</button></div>' +
-                            '<div class="row px-3 mb-2 form-title">' + issues[i].description + '</div>' +
-                            '<div class="mb-2 issue-id"><i class="mr-1 fa fa-history"></i>' + issues[i].severity + '</div>' +
-                            '<div class="mb-2 issue-id"><i class="mr-1 fa fa-user"></i>' + issues[i].assignedTo + '</div>' +
-                            '<div class="mb-2 issue-id"><i class="mr-1 fa fa-calendar"></i>' + issues[i].date_time + '</div>' +
-                            '<div class="row px-3 mb-2 issue-id">' +
-                            '<button type="button" class="btn btn-warning btn-sm mr-1 button-title white-font font-weight-bold"' +
-                            'id="' + issues[i].number + '" onclick="Issues_List.callClose( ' + issues[i].number + ');"' +
+                    issues.forEach(issue => {
+                        let enabled = issue.status === 'open' ? '' : 'disabled';
+                        document.getElementById('issuesArea').innerHTML += '<div class="mb-4 px-3">' +
+                            '<div class="row px-3 mb-2 issue-id ">Issue ID: ' + issue.id + '</div>' +
+                            '<div class="row px-3 mb-2 issue-id ">' +
+                            '<button type="button " class="btn btn-info btn-sm px-1 py-0 button-title font-weight-bold" disabled>' +
+                            issue.status + '</button></div>' +
+                            '<div class="row px-3 mb-2 form-title ">' + issue.description + '</div>' +
+                            '<div class="mb-2 issue-id "><i class="mr-1 fa fa-history "></i>' + issue.severity + '</div>' +
+                            '<div class="mb-2 issue-id "><i class="mr-1 fa fa-user "></i>' + issue.assignedTo + '</div>' +
+                            '<div class="mb-2 issue-id "><i class="mr-1 fa fa-calendar "></i>' + issue.date + '</div>' +
+                            '<div class="row px-3 mb-2 issue-id ">' +
+                            '<button type="button " class="btn btn-warning btn-sm mr-1 button-title white-font font-weight-bold "' +
+                            'id="' + issue.id + '" onclick="closeIssue(this.id)"' +
                             enabled + '>Close</button>' +
-                            '<button type="button" class="btn btn-danger btn-sm button-title font-weight-bold"' +
-                            'id="' + issues[i].number + '" onclick="Issues_List.callDelete( ' + issues[i].number + ')">Delete</button></div>' +
-                            '</div>';;
-                    }
+                            '<button type="button " class="btn btn-danger btn-sm button-title font-weight-bold "' +
+                            'id="' + issue.id + '" onclick="openDeleteDialog(this.id) ">Delete</button></div>' +
+                            '</div>';
+                    });
                 </script>
             </div>
         </div>
